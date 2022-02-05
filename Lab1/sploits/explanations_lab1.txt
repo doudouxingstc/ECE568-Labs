@@ -1,0 +1,36 @@
+#Tiancheng Sheng, 1007429819, tc.sheng@mail.utoronto.ca
+
+
+Target 1
+- Vulnerability: The program has buffer overflow vulnerability. The 'strcpy()' in 
+function foo copies a unknown length string to a fixed size buffer.  
+- To exploit the vulnerability, we could find the address of buffer (0x2021fe50)
+and original return address of lab_main (0x2021fec8), and copy the malicious 
+code (contains shellcode) to our variable. The code will overwrite the return 
+address to the address of the beginning of buffer and redirect the control flow 
+to the shellcode. 
+                                                                                
+
+Target 2
+- Vulnerability: Buffer overflow vulnerability. The program contains a for-loop that 
+allows copy 272 chars to a buffer with size of only 256.
+- To exploit the vulnerability, we could firstly find the address of buffer (0x2021fd80),
+len (0x2021fe88), i (0x2021fe8c), and original return address (0x2021fe98), and then 
+overwrite the value of len and i. Since there are 284 bytes between the end of the 
+return address and the buffer, we will overwrite the len variable to 285 (284 + '\0). 
+The variable of i will also be changed accordingly so that the return address will be 
+reached.
+
+
+Target 3
+- Vulnerability: Buffer overflow vulnerability. The foo function will copy string up
+to 88 bytes to a buffer of size 64.
+- Similar to target 1, we could use the buffer to overwrite the original return address
+and pass control to our malicious shellcode.
+
+
+Target 4
+- Vulnerability: Still buffer overflow. The foo function contains a for-loop that 
+allows copy 169 chars to a buffer with size of only 156.
+- Similar to target 2, we overwrite the len and i to extend the copy behavior outside 
+the buffer, so that the return address could be changed to the beginning of the buffer.

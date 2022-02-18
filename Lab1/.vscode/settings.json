@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "shellcode-64.h": "c",
+        "stdio.h": "c"
+    }
+}

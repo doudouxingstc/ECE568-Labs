@@ -27,16 +27,9 @@ validateTOTP(char * secret_hex, char * TOTP_string)
 	uint8_t key_ipad[64];
 	uint8_t key_opad[64];
 
+	memset(secret_key, 0, 64);
 	memset(key_ipad, 0x00, 64);
 	memset(key_opad, 0x00, 64);
-
-	// memset(key_ipad, 0x00, 10);
-	// memset(key_ipad + 10, 0x36, 54);
-
-	// memset(key_ipod, 0x00, 10);
-	// memset(key_ipod + 10, 0x5c, 54);
-
-	memset(secret_key, 0, 64);
 
 	for (int i = 0; i < 10; i++) {
 		secret_key[i] = char_to_int(secret_hex[2 * i]) * 16 + char_to_int(secret_hex[2 * i + 1]);

@@ -222,9 +222,46 @@ class BioConnect:
 		# >>> Add code here to call
 		#    .../v2/users/<userId>/authenicators/<authenticatorId>
 		# and process the response
+		global	hostname
 
-		return('')
+		headers = {
+			'Content-Type':		'application/json',
+			'accept':		'application/json',
+			'bcaccesskey':		self.bcaccesskey,
+			'bcentitykey':		self.bcentitykey,
+			'bctoken':		self.bctoken
+		}
 
+		url = 'https://%s/v2/users/%s' \
+			'/authenticators/%s' % \
+			( hostname, self.userId, self.authenticatorId )
+
+		result = requests.get(url, headers=headers)
+
+		if result == False:
+			print(headers)
+			print(result.content)
+			sys.exit("Error: unable to get authenticator status")
+
+		try:
+			reply = json.loads(result.content.decode("utf-8"))
+
+		except ValueError:
+			print(headers)
+			print(result.content)
+			sys.exit("Error: unexpected reply for authenticator status")
+
+		authentication_status = reply.get("status","")
+		face_status = reply.get("face_status","")
+		voice_status = reply.get("voice_status","")
+		finger_status = reply.get("fingerprint_status","")
+		eye_status = reply.get("eye_status","")
+
+		if authentication_status == 'active':
+			if (face_status == 'enrolled' or voice_status == 'enrolled' or finger_status == 'enrolled' or eye_status == 'enrolled'):
+				return ("active")
+				
+		return ("inactive")
 
 	# ===== sendStepup: Pushes an authentication request to the mobile app
 
@@ -235,8 +272,45 @@ class BioConnect:
 		# >>> Add code here to call
 		#     .../v2/user_verifications
 		# to push an authentication request to the mobile device
+		global	hostname
 
-		pass
+		headers = {
+			'Content-Type':		'application/json',
+			'accept':		'application/json',
+			'bcaccesskey':		self.bcaccesskey,
+			'bcentitykey':		self.bcentitykey,
+			'bctoken':		self.bctoken
+		}
+
+		data = {
+			'user_uuid': self.userId,
+			'transaction_id' : transactionId,
+			'message' : message
+		}
+
+		url = 'https://%s/v2/user_verifications' % ( hostname )
+
+		result = requests.post(url, data=json.dumps(data), headers=headers)
+
+		if result == False:
+			# Error: we did not receive an HTTP/200
+			print(headers)
+			print(result.content)
+			sys.exit("Error: unable to send stepUp request")
+
+		try:
+			# Parse the JSON reply
+			reply = json.loads(result.content.decode('utf-8'))
+
+			# Extract the authenticatorId
+
+		except ValueError:
+			print(headers)
+			print(result.content)
+			sys.exit("Error: unexpected reply for send stepup")
+
+		self.stepupId = reply.get("user_verification","").get("uuid", "")
+
 
 	# ===== getStepupStatus: Fetches the status of the user auth request
 
@@ -245,9 +319,39 @@ class BioConnect:
 		# >>> Add code here to call
 		#     .../v2/user_verifications/<verificationId>
 		# to poll for the current status of the verification
+		global	hostname
 
-		return('declined')
+		headers = {
+			'Content-Type':		'application/json',
+			'accept':		'application/json',
+			'bcaccesskey':		self.bcaccesskey,
+			'bcentitykey':		self.bcentitykey,
+			'bctoken':		self.bctoken
+		}
 
+		# url = 'https://%s/v2/user_verifications/%s' % \
+		# 	( hostname, self.stepupId )
+		url = 'https://' + str(hostname) + '/v2/user_verifications/' + self.stepupId
+
+		result = requests.get(url, headers=headers)
+
+		if result == False:
+			# Error: we did not receive an HTTP/200
+			print(headers)
+			print(result.content)
+			sys.exit("Error: unable to get stepup status")
+
+		try:
+			# Parse the JSON reply
+			reply = json.loads(result.content.decode('utf-8'))
+
+		except ValueError:
+			print(headers)
+			print(result.content)
+			sys.exit("Error: unexpected reply for stepup status")
+
+		return (reply.get("user_verification","")["status"])
+		# pass
 
 	# ===== deleteUser: Deletes the user and mobile phone entries
 

